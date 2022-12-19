@@ -28,7 +28,7 @@ class TitleBar(QFrame):
         Custom Title bar for the Main window;
     """
 
-    HEIGHT = 31
+    HEIGHT = 34
 
     STYLESHEET = """
         background-color: #8b949e;
@@ -58,9 +58,37 @@ class TitleBar(QFrame):
         self.title_label = QLabel(
             parent=self, text=f"<h3>{TitleBar.TITLE}</h3>")
 
+        # create the title label;
         self.title_label.setStyleSheet(TitleBar.LABEL_STYLESHEET)
 
         self.title_label.move(20, 5)
+
+        # create the close button;
+        self.close_btn = QPushButton(parent=self)
+
+        self.close_btn.setIcon(QIcon("./assets/close.png"))
+
+        self.close_btn.setIconSize(QSize(24, 24))
+
+        self.close_btn.clicked.connect(sys.exit)
+
+        self.close_btn.setCursor(QCursor(Qt.PointingHandCursor))
+
+        self.close_btn.move(318, 3)
+
+        # create the minimize button;
+
+        self.minimize_btn = QPushButton(parent=self)
+
+        self.minimize_btn.setIcon(QIcon("./assets/minimize.png"))
+
+        self.minimize_btn.setIconSize(QSize(24, 24))
+
+        self.minimize_btn.clicked.connect(self.parent().showMinimized)
+
+        self.minimize_btn.setCursor(QCursor(Qt.PointingHandCursor))
+
+        self.minimize_btn.move(280, 3)
 
 
 class MainFrame(QFrame):
