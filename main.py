@@ -116,6 +116,20 @@ class MainFrame(QFrame):
 
         self.setStyleSheet(MainFrame.STYLESHEET)
 
+        self.add_new_task_btn = QPushButton(parent=self, text="")
+
+        self.add_new_task_btn.setIcon(QIcon("./assets/add.png"))
+
+        self.add_new_task_btn.setIconSize(QSize(48, 48))
+
+        self.add_new_task_btn.setStyleSheet("""
+                                            background: transparent;
+                                            """)
+
+        self.add_new_task_btn.setCursor(QCursor(Qt.PointingHandCursor))
+
+        self.add_new_task_btn.move(280, 435)
+
 
 class MainWindow(QMainWindow):
     """
