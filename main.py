@@ -19,6 +19,9 @@ from PyQt5.QtGui import *
 import sys
 import tools
 
+# wipe terminal screen;
+tools.clear()
+
 
 class TitleBar(QFrame):
     """
@@ -37,6 +40,12 @@ class TitleBar(QFrame):
 
     """
 
+    LABEL_STYLESHEET = """
+        color: black;
+        font-weight: bold;
+        font-family: Mono;
+    """
+
     TITLE = "Quick-Do"
 
     def __init__(self, *args, **kwargs):
@@ -45,6 +54,13 @@ class TitleBar(QFrame):
         self.setFixedSize(self.parent().width(), TitleBar.HEIGHT)
 
         self.setStyleSheet(TitleBar.STYLESHEET)
+
+        self.title_label = QLabel(
+            parent=self, text=f"<h3>{TitleBar.TITLE}</h3>")
+
+        self.title_label.setStyleSheet(TitleBar.LABEL_STYLESHEET)
+
+        self.title_label.move(20, 5)
 
 
 class MainFrame(QFrame):
