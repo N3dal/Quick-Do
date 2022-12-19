@@ -20,9 +20,30 @@ import sys
 import tools
 
 
+class MainWindow(QMainWindow):
+    """
+        the app main-window;
+    """
+
+    WIDTH = 350
+    HEIGHT = 550
+    STYLESHEET = """"""
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.setFixedSize(MainWindow.WIDTH, MainWindow.HEIGHT)
+
+        self.setStyleSheet(MainWindow.STYLESHEET)
+
+
 def main():
 
     app = QApplication(sys.argv)
+
+    root = MainWindow()
+
+    root.show()
 
     sys.exit(app.exec_())
 
