@@ -23,6 +23,14 @@ import tools
 tools.clear()
 
 
+class Signals(QObject):
+    """
+            contain all the signals for NewTaskBox;
+        """
+
+    new_task = pyqtSignal(str)
+
+
 class NewTaskBox(QMainWindow):
     """
         Custom window to add new tasks;
@@ -66,6 +74,8 @@ class NewTaskBox(QMainWindow):
 
         self.setStyleSheet(NewTaskBox.STYLESHEET)
 
+        self.signals = Signals()
+
         # create text edit;
         self.line_edit_box = QLineEdit(parent=self)
 
@@ -94,8 +104,12 @@ class NewTaskBox(QMainWindow):
 
             return None;
         """
+        new_task_text = self.line_edit_box.text()
+
+        self.signals.new_task.emit(new_task_text)
 
         self.close()
+
         return None
 
 
