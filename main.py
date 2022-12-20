@@ -53,7 +53,7 @@ class NewTaskBox(QMainWindow):
             color: black;
             background-color: #4169e1;
             font-size: 18px;
-            border-radius: 15px;
+            border-radius: 5px;
             }
     """
 
@@ -86,7 +86,7 @@ class NewTaskBox(QMainWindow):
 
         self.add_btn.clicked.connect(self.add_btn_event)
 
-        self.add_btn.move(300, 70)
+        self.add_btn.move(305, 70)
 
     def add_btn_event(self):
         """
