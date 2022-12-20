@@ -66,7 +66,7 @@ class NewTaskBox(QMainWindow):
 
         self.setStyleSheet(NewTaskBox.STYLESHEET)
 
-        # create the text edit;
+        # create text edit;
         self.line_edit_box = QLineEdit(parent=self)
 
         self.line_edit_box.setFixedSize(self.width()-10, 60)
@@ -329,6 +329,9 @@ class MainFrame(QFrame):
 
         self.add_new_task_btn.move(280, 435)
 
+        # create add new task box;
+        self.new_task_box = NewTaskBox(parent=self)
+
         # create the tasks;
 
         # the space b/w tasks in y is 35;
@@ -339,9 +342,8 @@ class MainFrame(QFrame):
 
             return None;
         """
-        new_task_box = NewTaskBox(parent=self)
 
-        new_task_box.show()
+        self.new_task_box.show()
 
         return None
 
