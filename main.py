@@ -23,6 +23,127 @@ import tools
 tools.clear()
 
 
+class Task(QWidget):
+    """
+        custom label with checkbox beside it;
+    """
+
+    STYLESHEET = """
+        background: transparent;
+    """
+
+    LABEL_STYLESHEET = """
+        color: white;
+        font-size: 20px;
+        font-weight: bold;
+    """
+
+    CHECKBOX_STYLESHEET = """
+
+    QCheckBox::indicator{
+        background-transparent;
+        border: 2px solid black;
+        width: 15px;
+        height: 15px;
+    }
+
+    QCheckBox::indicator:pressed{
+        background-color: #5eba7d;
+    }
+
+    QCheckBox::indicator:checked{
+        background-color: #5eba7d;
+    }
+
+    QCheckBox::indicator:hover{
+        border: 2px groove black;
+
+    }
+
+    QCheckBox{
+        background: transparent;
+        background-color: transparent;
+        border: none;
+        }
+    """
+
+    def __init__(self, task_name: str, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.task_value = task_name
+
+        self.__task_name = task_name[:22] + \
+            ("...." if len(task_name) > 22 else "")
+
+        self.setFixedSize(self.parent().width(), 70)
+
+        self.label = QLabel(parent=self, text=self.__task_name)
+
+        self.label.setStyleSheet(Task.LABEL_STYLESHEET)
+
+        self.label.move(25, 0)
+
+        self.checkbox = QCheckBox(parent=self)
+
+        self.setStyleSheet(Task.STYLESHEET)
+
+        self.checkbox.setStyleSheet(Task.CHECKBOX_STYLESHEET)
+
+        self.checkbox.setCursor(QCursor(Qt.PointingHandCursor))
+
+        self.checkbox.toggled.connect(self.checkbox_click_event)
+
+        self.checkbox.move(0, 0)
+
+    def stroke_out(self):
+        """
+            add Stroke out line to check box text;
+
+            return None;
+        """
+        font = self.label.font()
+        font.setStrikeOut(True)
+        self.label.setFont(font)
+
+        return None
+
+    def remove_stroke_out(self):
+        """
+            remove the Stroke out line from the check box text;
+
+            return None;
+        """
+
+        font = self.label.font()
+        font.setStrikeOut(False)
+        self.label.setFont(font)
+
+        return None
+
+    def checkbox_click_event(self):
+        """
+            checkbox event when we change the status;
+
+            return None
+        """
+
+        font = self.label.font()
+
+        task_stroke_out = font.strikeOut()
+
+        if task_stroke_out:
+            # if there's line stroke the label,
+            # then remove it;
+            self.remove_stroke_out()
+
+        else:
+            # if there's no line stroke the label,
+            # then add one simply out Strike out the label;
+            self.stroke_out()
+
+        return None
+
+
 class TitleBar(QFrame):
     """
         Custom Title bar for the Main window;
@@ -32,7 +153,7 @@ class TitleBar(QFrame):
 
     STYLESHEET = """
         background-color: #8b949e;
-        
+
         border-top-left-radius: 10px;
         border-top-right-radius:10px;
         border-bottom-left-radius: 0px;
@@ -100,13 +221,13 @@ class MainFrame(QFrame):
                                     x2: 1, y2: 0,
                                     stop: 0 #005C97,
                                     stop: 1 #363795);
-                                    
+
         border-top-left-radius: 0px;
         border-top-right-radius: 0px;
         border-bottom-left-radius: 15px;
         border-bottom-right-radius: 15px;
-            
-        
+
+
     """
 
     def __init__(self, *args, **kwargs):
@@ -129,6 +250,12 @@ class MainFrame(QFrame):
         self.add_new_task_btn.setCursor(QCursor(Qt.PointingHandCursor))
 
         self.add_new_task_btn.move(280, 435)
+
+        # create the tasks;
+
+        task1 = Task("Create the Project Description", parent=self)
+
+        task1.move(15, 25)
 
 
 class MainWindow(QMainWindow):
