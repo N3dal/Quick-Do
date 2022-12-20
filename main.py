@@ -22,6 +22,8 @@ import tools
 # wipe terminal screen;
 tools.clear()
 
+# TODO: add the ability to delete some tasks;
+
 
 class Signals(QObject):
     """
@@ -236,6 +238,14 @@ class Task(QWidget):
 
         return None
 
+    def mousePressEvent(self, e):
+        # print(dir(e))
+
+        if e.button() == 4:
+            # mouse middle click
+            # then remove the task;
+            pass
+
 
 class TitleBar(QFrame):
     """
@@ -303,6 +313,22 @@ class TitleBar(QFrame):
         self.minimize_btn.setCursor(QCursor(Qt.PointingHandCursor))
 
         self.minimize_btn.move(280, 3)
+
+    def mousePressEvent(self, e):
+        # print(dir(e))
+
+        # self.parent().move(10, 20)
+
+        # deltax = e.x() - self.x()
+        # deltay = e.y() - self.y()
+
+        # x = self.parent().x() + deltax
+        # y = self.parent().y() + deltay
+
+        # # print(deltax, deltay)
+        # self.parent().move(x, y)
+
+        return None
 
 
 class MainFrame(QFrame):
@@ -378,6 +404,11 @@ class MainFrame(QFrame):
 
             return None;
         """
+
+        # Guard conditions;
+        if not task_name:
+            # if the task name is empty;
+            return None
 
         if len(self.tasks) > MainFrame.MAX_TASKS:
 
