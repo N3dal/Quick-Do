@@ -23,6 +23,82 @@ import tools
 tools.clear()
 
 
+class NewTaskBox(QMainWindow):
+    """
+        Custom window to add new tasks;
+    """
+
+    WIDTH = 400
+    HEIGHT = 105
+
+    STYLESHEET = """
+        border-radius: 0px;
+        
+    """
+
+    TITLE = "Add new Task"
+
+    LINE_EDIT_STYLESHEET = """
+        background-color: white;
+        border-radius: 5px;
+        color: black;
+        font-size: 18px;
+    """
+
+    BUTTON_STYLESHEET = """
+        QPushButton:hover{
+            background-color: #4285f4;
+            }
+        QPushButton{
+            color: black;
+            background-color: #4169e1;
+            font-size: 18px;
+            border-radius: 15px;
+            }
+    """
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.setFixedSize(NewTaskBox.WIDTH, NewTaskBox.HEIGHT)
+
+        self.setWindowTitle(NewTaskBox.TITLE)
+
+        self.setStyleSheet(NewTaskBox.STYLESHEET)
+
+        # create the text edit;
+        self.line_edit_box = QLineEdit(parent=self)
+
+        self.line_edit_box.setFixedSize(self.width()-10, 60)
+
+        self.line_edit_box.setStyleSheet(NewTaskBox.LINE_EDIT_STYLESHEET)
+
+        self.line_edit_box.move(5, 5)
+
+        # create add button;
+        self.add_btn = QPushButton(parent=self, text="Add")
+
+        self.add_btn.setFixedSize(90, 30)
+
+        self.add_btn.setStyleSheet(NewTaskBox.BUTTON_STYLESHEET)
+
+        self.add_btn.setCursor(QCursor(Qt.PointingHandCursor))
+
+        self.add_btn.clicked.connect(self.add_btn_event)
+
+        self.add_btn.move(300, 70)
+
+    def add_btn_event(self):
+        """
+            add button click event;
+
+            return None;
+        """
+
+        self.close()
+        return None
+
+
 class Task(QWidget):
     """
         custom label with checkbox beside it;
@@ -249,13 +325,25 @@ class MainFrame(QFrame):
 
         self.add_new_task_btn.setCursor(QCursor(Qt.PointingHandCursor))
 
+        self.add_new_task_btn.clicked.connect(self.add_new_task_event)
+
         self.add_new_task_btn.move(280, 435)
 
         # create the tasks;
 
-        task1 = Task("Create the Project Description", parent=self)
+        # the space b/w tasks in y is 35;
 
-        task1.move(15, 25)
+    def add_new_task_event(self):
+        """
+            add new task button click event;
+
+            return None;
+        """
+        new_task_box = NewTaskBox(parent=self)
+
+        new_task_box.show()
+
+        return None
 
 
 class MainWindow(QMainWindow):
@@ -279,6 +367,7 @@ class MainWindow(QMainWindow):
 
         self.setWindowOpacity(MainWindow.OPACITY)
 
+        # hide the main window;
         self.setAttribute(Qt.WA_TranslucentBackground)
 
         # to remove the title bar and the frame;
