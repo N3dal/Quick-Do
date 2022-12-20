@@ -185,6 +185,9 @@ class Task(QWidget):
 
         self.checkbox.move(0, 0)
 
+        # and the last step is to show everything;
+        self.show()
+
     def stroke_out(self):
         """
             add Stroke out line to check box text;
@@ -320,12 +323,16 @@ class MainFrame(QFrame):
 
     """
 
+    MAX_TASKS = 10
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         self.setFixedSize(self.parent().width(), self.parent().height() - 50)
 
         self.setStyleSheet(MainFrame.STYLESHEET)
+
+        self.tasks = []
 
         self.add_new_task_btn = QPushButton(parent=self, text="")
 
@@ -339,25 +346,59 @@ class MainFrame(QFrame):
 
         self.add_new_task_btn.setCursor(QCursor(Qt.PointingHandCursor))
 
-        self.add_new_task_btn.clicked.connect(self.add_new_task_event)
+        self.add_new_task_btn.clicked.connect(self.add_new_task_btn_event)
 
         self.add_new_task_btn.move(280, 435)
 
         # create add new task box;
         self.new_task_box = NewTaskBox(parent=self)
 
+        self.new_task_box.signals.new_task.connect(self.create_new_task)
+
         # create the tasks;
 
         # the space b/w tasks in y is 35;
 
-    def add_new_task_event(self):
+    def add_new_task_btn_event(self):
         """
             add new task button click event;
 
             return None;
         """
 
+        self.new_task_box.line_edit_box.setText("")
+        self.new_task_box.line_edit_box.setFocus(True)
         self.new_task_box.show()
+
+        return None
+
+    def create_new_task(self, task_name):
+        """
+            create new task and place it in the main frame;
+
+            return None;
+        """
+
+        if len(self.tasks) > MainFrame.MAX_TASKS:
+
+            raise Exception("Max tasks Limit!!!")
+            return None
+
+        VERTICAL_SHIFT = 35
+
+        task = Task(task_name, parent=self)
+
+        if not self.tasks:
+            # if we don't have any task then use the init values of y;
+            y = 25
+
+        else:
+            # if we have tasks;
+            y = self.tasks[-1].y() + VERTICAL_SHIFT
+
+        self.tasks.append(task)
+
+        task.move(15, y)
 
         return None
 
