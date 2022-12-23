@@ -19,6 +19,10 @@ from PyQt5.QtGui import *
 import sys
 import tools
 
+
+# shortcut key;
+SPACE_KEY = 32
+
 # wipe terminal screen;
 tools.clear()
 
@@ -410,6 +414,8 @@ class MainFrame(QFrame):
 
         self.new_task_box.signals.new_task.connect(self.create_new_task)
 
+        self.setFocus(True)
+
         # create the tasks;
 
         # the space b/w tasks in y is 35;
@@ -461,6 +467,9 @@ class MainFrame(QFrame):
 
         task.move(15, y)
 
+        # return focus to the main Frame;
+        self.setFocus(True)
+
         return None
 
     def update_todo_list(self):
@@ -488,6 +497,13 @@ class MainFrame(QFrame):
                 y = self.tasks[index - 1].y() + VERTICAL_SHIFT
 
             task.move(15, y)
+
+        return None
+
+    def keyPressEvent(self, e):
+
+        if e.key() == SPACE_KEY:
+            self.add_new_task_btn_event()
 
         return None
 
