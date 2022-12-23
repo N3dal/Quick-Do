@@ -23,9 +23,10 @@ import tools
 tools.clear()
 
 # TODO: add the ability to delete some tasks;
+# TODO: save the todo in file;
 
 
-class Signals(QObject):
+class NewTaskBoxSignals(QObject):
     """
             contain all the signals for NewTaskBox;
         """
@@ -76,7 +77,7 @@ class NewTaskBox(QMainWindow):
 
         self.setStyleSheet(NewTaskBox.STYLESHEET)
 
-        self.signals = Signals()
+        self.signals = NewTaskBoxSignals()
 
         # create text edit;
         self.line_edit_box = QLineEdit(parent=self)
@@ -245,6 +246,7 @@ class Task(QWidget):
             # mouse middle click
             # then remove the task;
             print("middle clicked")
+            self.close()
 
 
 class TitleBar(QFrame):
@@ -281,6 +283,8 @@ class TitleBar(QFrame):
 
         self.title_label = QLabel(
             parent=self, text=f"<h3>{TitleBar.TITLE}</h3>")
+
+        self.old_mouse_position = QPoint()
 
         # create the title label;
         self.title_label.setStyleSheet(TitleBar.LABEL_STYLESHEET)
