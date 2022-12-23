@@ -244,7 +244,7 @@ class Task(QWidget):
         if e.button() == 4:
             # mouse middle click
             # then remove the task;
-            pass
+            print("middle clicked")
 
 
 class TitleBar(QFrame):
@@ -297,10 +297,6 @@ class TitleBar(QFrame):
         self.close_btn.clicked.connect(sys.exit)
 
         self.close_btn.setCursor(QCursor(Qt.PointingHandCursor))
-
-        for item in dir(Qt):
-            if "cursor" in str(item).lower():
-                print(item)
 
         self.close_btn.move(318, 3)
 
