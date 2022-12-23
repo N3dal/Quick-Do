@@ -44,7 +44,7 @@ class NewTaskBox(QMainWindow):
 
     STYLESHEET = """
         border-radius: 0px;
-        
+
     """
 
     TITLE = "Add new Task"
@@ -116,6 +116,14 @@ class NewTaskBox(QMainWindow):
         return None
 
 
+class TaskSignals(QObject):
+    """
+        contain all signals fr the Task;
+    """
+
+    removed = pyqtSignal()
+
+
 class Task(QWidget):
     """
         custom label with checkbox beside it;
@@ -164,6 +172,10 @@ class Task(QWidget):
         super().__init__(*args, **kwargs)
 
         self.task_value = task_name
+
+        self.state = True
+
+        self.signals = TaskSignals()
 
         self.__task_name = task_name[:22] + \
             ("...." if len(task_name) > 22 else "")
@@ -245,7 +257,11 @@ class Task(QWidget):
         if e.button() == 4:
             # mouse middle click
             # then remove the task;
-            print("middle clicked")
+
+            self.state = False
+
+            self.signals.removed.emit()
+
             self.close()
 
 
@@ -429,6 +445,7 @@ class MainFrame(QFrame):
         VERTICAL_SHIFT = 35
 
         task = Task(task_name, parent=self)
+        task.signals.removed.connect(self.update_todo_list)
 
         if not self.tasks:
             # if we don't have any task then use the init values of y;
@@ -441,6 +458,34 @@ class MainFrame(QFrame):
         self.tasks.append(task)
 
         task.move(15, y)
+
+        return None
+
+    def update_todo_list(self):
+        """
+            reorder the todo list tasks;
+
+            return None;
+        """
+        VERTICAL_SHIFT = 35
+
+        for task in self.tasks:
+
+            if task.state == False:
+                self.tasks.remove(task)
+
+            task.destroy()
+
+        for index, task in enumerate(self.tasks):
+
+            if index == 0:
+                y = 25
+
+            else:
+                # if we have tasks;
+                y = self.tasks[index - 1].y() + VERTICAL_SHIFT
+
+            task.move(15, y)
 
         return None
 
