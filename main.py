@@ -86,6 +86,8 @@ class NewTaskBox(QMainWindow):
 
         self.line_edit_box.setStyleSheet(NewTaskBox.LINE_EDIT_STYLESHEET)
 
+        self.line_edit_box.returnPressed.connect(self.add_btn_event)
+
         self.line_edit_box.move(5, 5)
 
         # create add button;
