@@ -315,18 +315,17 @@ class TitleBar(QFrame):
         self.minimize_btn.move(280, 3)
 
     def mousePressEvent(self, e):
-        # print(dir(e))
 
-        # self.parent().move(10, 20)
+        self.old_mouse_position = e.globalPos()
 
-        # deltax = e.x() - self.x()
-        # deltay = e.y() - self.y()
+        return None
 
-        # x = self.parent().x() + deltax
-        # y = self.parent().y() + deltay
+    def mouseMoveEvent(self, e):
 
-        # # print(deltax, deltay)
-        # self.parent().move(x, y)
+        delta = QPoint(e.globalPos() - self.old_mouse_position)
+
+        self.parent().move(self.parent().x() + delta.x(), self.parent().y() + delta.y())
+        self.old_mouse_position = e.globalPos()
 
         return None
 
