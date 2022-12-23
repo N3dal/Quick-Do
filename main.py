@@ -298,6 +298,10 @@ class TitleBar(QFrame):
 
         self.close_btn.setCursor(QCursor(Qt.PointingHandCursor))
 
+        for item in dir(Qt):
+            if "cursor" in str(item).lower():
+                print(item)
+
         self.close_btn.move(318, 3)
 
         # create the minimize button;
@@ -317,6 +321,14 @@ class TitleBar(QFrame):
     def mousePressEvent(self, e):
 
         self.old_mouse_position = e.globalPos()
+
+        self.setCursor(QCursor(Qt.DragMoveCursor))
+
+        return None
+
+    def mouseReleaseEvent(self, e):
+
+        self.setCursor(QCursor(Qt.ArrowCursor))
 
         return None
 
