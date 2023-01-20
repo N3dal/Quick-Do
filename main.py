@@ -209,27 +209,14 @@ class Task(QWidget):
         # and the last step is to show everything;
         self.show()
 
-    def stroke_out(self):
+    def stroke_out(self, state: bool):
         """
-            add Stroke out line to check box text;
+            add or remove Stroke out line from check box text;
 
             return None;
         """
         font = self.label.font()
-        font.setStrikeOut(True)
-        self.label.setFont(font)
-
-        return None
-
-    def remove_stroke_out(self):
-        """
-            remove the Stroke out line from the check box text;
-
-            return None;
-        """
-
-        font = self.label.font()
-        font.setStrikeOut(False)
+        font.setStrikeOut(state)
         self.label.setFont(font)
 
         return None
@@ -248,12 +235,12 @@ class Task(QWidget):
         if task_stroke_out:
             # if there's line stroke the label,
             # then remove it;
-            self.remove_stroke_out()
+            self.stroke_out(False)
 
         else:
             # if there's no line stroke the label,
             # then add one simply out Strike out the label;
-            self.stroke_out()
+            self.stroke_out(True)
 
         return None
 
