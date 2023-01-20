@@ -30,14 +30,6 @@ tools.clear()
 # TODO: save the todo in file;
 
 
-class NewTaskBoxSignals(QObject):
-    """
-            contain all the signals for NewTaskBox;
-        """
-
-    new_task = pyqtSignal(str)
-
-
 class NewTaskBox(QMainWindow):
     """
         Custom window to add new tasks;
@@ -72,6 +64,13 @@ class NewTaskBox(QMainWindow):
             }
     """
 
+    class NewTaskBoxSignals(QObject):
+        """
+                contain all the signals for NewTaskBox;
+            """
+
+        new_task = pyqtSignal(str)
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -81,7 +80,7 @@ class NewTaskBox(QMainWindow):
 
         self.setStyleSheet(NewTaskBox.STYLESHEET)
 
-        self.signals = NewTaskBoxSignals()
+        self.signals = NewTaskBox.NewTaskBoxSignals()
 
         # create text edit;
         self.line_edit_box = QLineEdit(parent=self)
@@ -120,14 +119,6 @@ class NewTaskBox(QMainWindow):
         self.close()
 
         return None
-
-
-class TaskSignals(QObject):
-    """
-        contain all signals fr the Task;
-    """
-
-    removed = pyqtSignal()
 
 
 class Task(QWidget):
@@ -174,6 +165,13 @@ class Task(QWidget):
         }
     """
 
+    class TaskSignals(QObject):
+        """
+            contain all signals fr the Task;
+        """
+
+        removed = pyqtSignal()
+
     def __init__(self, task_name: str, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -181,7 +179,7 @@ class Task(QWidget):
 
         self.state = True
 
-        self.signals = TaskSignals()
+        self.signals = Task.TaskSignals()
 
         self.__task_name = task_name[:22] + \
             ("...." if len(task_name) > 22 else "")
